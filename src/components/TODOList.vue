@@ -2,24 +2,33 @@
 import { ref } from "vue";
 
 const items = ref([
-  { name: "たまご", price: 100 },
-  { name: "りんご", price: 160 },
+  { name: "たまご", price: 100, done: false },
+  { name: "りんご", price: 160, done: false },
 ]);
 const newItemName = ref("");
 const newItemPrice = ref(0);
 
 const addItem = () => {
-  items.value.push({ name: newItemName.value, price: newItemPrice.value });
+  items.value.push({
+    name: newItemName.value,
+    price: newItemPrice.value,
+    done: false,
+  });
 };
 </script>
 
 <template>
   <div>
-    <div>ItemList</div>
+    <div>TODOList</div>
     <div v-for="item in items" :key="item.name">
-      <div class="item">
+      <div
+        v-if="item.done == false"
+        class="item"
+        :class="{ over500: item.price >= 500 }"
+      >
         <div class="name">名前: {{ item.name }}</div>
         <div class="price">{{ item.price }} 円</div>
+        <a herf="#" @click="item.done = true">完了</a>
       </div>
     </div>
     <div>
@@ -36,4 +45,8 @@ const addItem = () => {
   </div>
 </template>
 
-<style></style>
+<style>
+.over500 {
+  color: red;
+}
+</style>
